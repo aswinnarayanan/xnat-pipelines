@@ -1,0 +1,87 @@
+{
+    "name": "dcm2zip",
+    "description": "Runs dcm2zip",
+    "label": "dcm2zip",
+    "info-url": "https://github.com/aswinnarayanan/xnat-pipelines",
+    "version": "1.0",
+    "schema-version": "1.0",
+    "type": "docker",
+    "image": "aswinnarayanan/dcm2zip",
+    "command-line": "dcm2zip [BIDS] [OTHER_OPTIONS] -o /output /input",
+    "mounts": [
+        {
+            "name": "dicom-in",
+            "writable": "false",
+            "path": "/input"
+        },
+        {
+            "name": "zip-out",
+            "writable": "true",
+            "path": "/output"
+        }
+    ],
+    "inputs": [
+        {
+            "name": "bids",
+            "description": "Create BIDS metadata file",
+            "type": "boolean",
+            "required": false,
+            "default-value": false,
+            "replacement-key": "[BIDS]",
+            "command-line-flag": "-b",
+            "true-value": "y",
+            "false-value": "n"
+        },
+        {
+            "name": "other-options",
+            "description": "Other command-line flags to pass to dcm2zip",
+            "type": "string",
+            "required": false,
+            "replacement-key": "[OTHER_OPTIONS]"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "nifti",
+            "description": "The nifti files",
+            "mount": "nifti-out",
+            "required": "true"
+        }
+    ],
+    "xnat": [
+        {
+            "name": "dcm2zip-scan",
+            "description": "Run dcm2zip on a Scan",
+            "label": "dcm2zip",
+            "contexts": ["xnat:imageScanData"],
+            "external-inputs": [
+                {
+                    "name": "scan",
+                    "description": "Input scan",
+                    "type": "Scan",
+                    "required": true,
+                    "matcher": "'DICOM' in @.resources[*].label"
+                }
+            ],
+            "derived-inputs": [
+                {
+                    "name": "scan-dicoms",
+                    "description": "The dicom resource on the scan",
+                    "type": "Resource",
+                    "derived-from-wrapper-input": "scan",
+                    "provides-files-for-command-mount": "dicom-in",
+                    "matcher": "@.label == 'DICOM'"
+                }
+            ],
+            "output-handlers": [
+                {
+                    "name": "nifti-resource",
+                    "accepts-command-output": "nifti",
+                    "as-a-child-of-wrapper-input": "scan",
+                    "type": "Resource",
+                    "label": "NIFTI"
+                }
+            ]
+        }
+    ]
+}
