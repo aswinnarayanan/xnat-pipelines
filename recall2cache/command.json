@@ -1,7 +1,7 @@
 {
   "name": "recall2cache",
   "label": "recall2cache",
-  "description": "Recalls data files to cache",
+  "description": "Recall files to cache",
   "version": "2025.08.14",
   "schema-version": "1.0",
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
@@ -23,7 +23,7 @@
     {
       "name": "recall2cache-scan",
       "label": "recall2cache",
-      "description": "Recall all data files for this scan to cache",
+      "description": "Recall files to cache",
       "contexts": [
         "xnat:imageScanData"
       ],
