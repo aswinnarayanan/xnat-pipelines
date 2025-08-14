@@ -2,12 +2,12 @@
   "name": "recall2cache",
   "label": "recall2cache",
   "description": "Recall files to cache",
-  "version": "2025.08.14",
+  "version": "0.1.0",
   "schema-version": "1.0",
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
-  "image": "ghcr.io/aswinnarayanan/recall2cache:2025.08.14",
+  "image": "ghcr.io/aswinnarayanan/recall2cache:0.1.0",
   "type": "docker",
-  "command-line": "sh -c \"echo 'Log file started' > /output/recall.log; /usr/local/bin/recall2cache /input >> /output/recall.log 2>&1\"",
+  "command-line": "/usr/local/bin/recall2cache --log /output/recall.log /input",
   "mounts": [
     {
       "name": "dicom-in",
