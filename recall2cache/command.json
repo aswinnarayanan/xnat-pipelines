@@ -1,69 +1,36 @@
 {
   "name": "recall2cache",
   "label": "recall2cache",
-  "description": "Runs recall2cache",
-  "version": "1.6",
+  "description": "Recalls data files to cache",
+  "version": "2025.08.14",
   "schema-version": "1.0",
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
   "image": "ghcr.io/aswinnarayanan/recall2cache:2025.08.14",
   "type": "docker",
-  "command-line": "recall2cache [BIDS] [OTHER_OPTIONS] -o /output /input",
+  "command-line": "/usr/local/bin/recall2cache /input",
   "mounts": [
     {
       "name": "dicom-in",
       "writable": false,
       "path": "/input"
-    },
-    {
-      "name": "nifti-out",
-      "writable": true,
-      "path": "/output"
     }
   ],
   "environment-variables": {},
   "ports": {},
-  "inputs": [
-    {
-      "name": "bids",
-      "description": "Create BIDS metadata file",
-      "type": "boolean",
-      "default-value": "false",
-      "required": false,
-      "replacement-key": "[BIDS]",
-      "command-line-flag": "-b",
-      "true-value": "y",
-      "false-value": "n",
-      "select-values": []
-    },
-    {
-      "name": "other-options",
-      "description": "Other command-line flags to pass to recall2cache",
-      "type": "string",
-      "required": false,
-      "replacement-key": "[OTHER_OPTIONS]",
-      "select-values": []
-    }
-  ],
-  "outputs": [
-    {
-      "name": "nifti",
-      "description": "The nifti files",
-      "required": true,
-      "mount": "nifti-out"
-    }
-  ],
+  "inputs": [],
+  "outputs": [],
   "xnat": [
     {
       "name": "recall2cache-scan",
       "label": "recall2cache",
-      "description": "Run recall2cache on a Scan",
+      "description": "Recall all data files for this scan to cache",
       "contexts": [
         "xnat:imageScanData"
       ],
       "external-inputs": [
         {
           "name": "scan",
-          "description": "Input scan",
+          "description": "The scan to recall.",
           "type": "Scan",
           "matcher": "'DICOM' in @.resources[*].label",
           "required": true,
@@ -72,8 +39,8 @@
       ],
       "derived-inputs": [
         {
-          "name": "scan-dicoms",
-          "description": "The dicom resource on the scan",
+          "name": "scan-dicom-resource",
+          "description": "The DICOM resource on the scan",
           "type": "Resource",
           "matcher": "@.label == 'DICOM'",
           "required": true,
@@ -81,16 +48,6 @@
           "load-children": true,
           "derived-from-wrapper-input": "scan",
           "multiple": false
-        }
-      ],
-      "output-handlers": [
-        {
-          "name": "nifti-resource",
-          "accepts-command-output": "nifti",
-          "as-a-child-of": "scan",
-          "type": "Resource",
-          "label": "NIFTI",
-          "tags": []
         }
       ]
     }
