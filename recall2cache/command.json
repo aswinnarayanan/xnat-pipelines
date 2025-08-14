@@ -7,7 +7,7 @@
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
   "image": "ghcr.io/aswinnarayanan/recall2cache:2025.08.14",
   "type": "docker",
-  "command-line": "/usr/local/bin/recall2cache /input > /output/recall.log 2>&1",
+  "command-line": "/usr/local/bin/recall2cache /input > /output/recall.log",
   "mounts": [
     {
       "name": "dicom-in",
@@ -15,7 +15,7 @@
       "path": "/input"
     },
     {
-      "name": "log-dir",
+      "name": "log-out",
       "writable": true,
       "path": "/output"
     }
@@ -28,7 +28,7 @@
       "name": "log",
       "description": "Command output log",
       "required": true,
-      "mount": "log-dir"
+      "mount": "log-out"
     }
   ],
   "xnat": [
