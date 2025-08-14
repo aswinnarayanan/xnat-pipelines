@@ -7,18 +7,30 @@
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
   "image": "ghcr.io/aswinnarayanan/recall2cache:2025.08.14",
   "type": "docker",
-  "command-line": "/usr/local/bin/recall2cache /input",
+  "command-line": "/usr/local/bin/recall2cache /input > /output/recall.log 2>&1",
   "mounts": [
     {
       "name": "dicom-in",
       "writable": false,
       "path": "/input"
+    },
+    {
+      "name": "log-dir",
+      "writable": true,
+      "path": "/output"
     }
   ],
   "environment-variables": {},
   "ports": {},
   "inputs": [],
-  "outputs": [],
+  "outputs": [
+    {
+      "name": "log",
+      "description": "Command output log",
+      "required": true,
+      "mount": "log-dir"
+    }
+  ],
   "xnat": [
     {
       "name": "recall2cache-scan",
@@ -48,6 +60,16 @@
           "load-children": true,
           "derived-from-wrapper-input": "scan",
           "multiple": false
+        }
+      ],
+      "output-handlers": [
+        {
+          "name": "log-resource",
+          "accepts-command-output": "log",
+          "as-a-child-of": "scan",
+          "type": "Resource",
+          "label": "LOG",
+          "tags": []
         }
       ]
     }
