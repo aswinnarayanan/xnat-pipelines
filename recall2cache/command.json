@@ -7,7 +7,7 @@
   "info-url": "https://github.com/aswinnarayanan/recall2cache",
   "image": "ghcr.io/aswinnarayanan/recall2cache:2025.08.14",
   "type": "docker",
-  "command-line": "/usr/local/bin/recall2cache /input > /output/recall.log",
+  "command-line": "sh -c \"echo 'Log file started' > /output/recall.log; /usr/local/bin/recall2cache /input >> /output/recall.log 2>&1\"",
   "mounts": [
     {
       "name": "dicom-in",
