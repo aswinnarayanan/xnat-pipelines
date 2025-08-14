@@ -1,0 +1,27 @@
+{
+  "name": "recall2cache",
+  "label": "recall2cache",
+  "description": "Runs recall2cache",
+  "version": "2025.08.14",
+  "schema-version": "1.0",
+  "info-url": "https://github.com/aswinnarayanan/recall2cache",
+  "image": "aswinnarayanan/recall2cache:latest",
+  "type": "docker",
+  "command-line": "recall2cache /input",
+  "mounts": [
+    {
+      "name": "dicom-in",
+      "writable": false,
+      "path": "/input"
+    }
+  ],
+  "environment-variables": {},
+  "ports": {},
+  "inputs": [],
+  "outputs": [],
+  "xnat": [],
+  "container-labels": {},
+  "generic-resources": {},
+  "ulimits": {},
+  "secrets": []
+}
